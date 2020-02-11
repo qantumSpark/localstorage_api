@@ -96,6 +96,7 @@ function postItem(dataBaseName, collectionName, item) {
     parsedDTB[collectionName] = [item]
     //console.log(parsedDTB);
     window.localStorage.setItem(dataBaseName, JSON.stringify(parsedDTB))
+    return parsedDTB
   }
   //Database and collection exist , adding the item
   parsedDTB[collectionName].push(item)

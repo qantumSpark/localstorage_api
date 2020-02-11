@@ -1,0 +1,27 @@
+{
+  "name": "local-storage-api",
+  "version": "0.0.1",
+  "description": "a Simple API for the localSorage of a browser",
+  "main": "./src/main.js",
+  "scripts": {
+    "doc": "jsdoc -c jsdoc.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qantumSpark/localstorage_api.git"
+  },
+  "keywords": [
+    "api",
+    "local",
+    "storage"
+  ],
+  "author": "quantumSpark",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qantumSpark/localstorage_api/issues"
+  },
+  "homepage": "https://github.com/qantumSpark/localstorage_api#readme",
+  "devDependencies": {
+    "jsdoc": "^3.6.3"
+  }
+}

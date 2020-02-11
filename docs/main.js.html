@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: main.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: main.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Initialize a dataBase
+ * @param {String} dataBaseName Name of the dataBase to create
+ */
+function initDTB(dataBaseName) {
+  window.localStorage.setItem(dataBaseName, '{}')
+}
+
+/**
+ * Get all localStorage without distinction
+ */
+function getAllDTB() {
+  const storage = {...window.localStorage}  
+  let res = Object.keys(storage).map(e => ({
+    [e]: JSON.parse(storage[e])
+  }))
+  return res  
+}
+
+///////////////////////////////////////////////////////
+// GET "ROUTES"
+///////////////////////////////////////////////////////
+
+/**
+ * Get a collection
+ * @param {String} dataBaseName Name of our database
+ * @param {String} collectionName Name of the collection we are trying to retrieve
+ * 
+ */
+function getCollection(dataBaseName, collectionName) {
+  return JSON.parse(window.localStorage.getItem(collectionName))
+}
+
+/**
+ * Get Items in a collection
+ * @param {String}  dataBaseName Name of the database
+ * @param {String} collectionName Name of the collection containing the item
+ * @param {Object} keyValuePair Key/Value pair for matching item ex: {key: "string", value: "string"}
+ * @param {Boolean} all true/false || Default to false, will return the first item matching the query, if set to true will return all matching items in an array (always return an array)
+ * 
+ */
+function getItem(dataBaseName, collectionName, keyValuePair, all = false) {
+  //Get the data from the localStorage key
+  let res =JSON.parse(window.localStorage.getItem(dataBaseName))
+
+  //If no key value pair is specified return the entire collection
+  if (typeof(keyValuePair) === "undefined") return res[collectionName]
+  //If keyvalue is not an object like expected
+  if(typeof(keyValuePair) !== "object") console.error('getItem function Error! Expect an Object and found a :'+typeof(keyValuePair))
+    
+  //If all is good
+  let {key, value} = keyValuePair
+  let collection = res[collectionName]  
+  let result = collection.filter(e => e[key] === value)
+  //Issue a warning in the console, result will be an empty array
+  if(result.length &lt; 1) return console.log(`!WARNING! getItem(): Could not find the item: ||key=${key}|| of ||value=${value}||`)
+  
+  if(all) return result
+  return result[0]
+}
+
+//Get all items from a collection
+
+//Get multiple items from a collection
+
+///////////////////////////////////////////////////////
+// POST "ROUTES"
+///////////////////////////////////////////////////////
+
+/**
+ * Post a new item in a collection, create the collection if doesn't exist
+ * @param {String} dataBaseName Name of the database in witch the collection is stored
+ * @param {String} collectionName Name of the collection in witch the item(s) should be stored
+ * @param {Object} item Should be an object for single object, for multiple post use postManyItems()
+ */
+function postItem(dataBaseName, collectionName, item) {
+  let DTB = window.localStorage.getItem(dataBaseName)
+  //If the dataBase doesn't exist
+  if(DTB === null) return console.log('No DTB WITH THIS NAME')
+  
+  //If dataBase is empty
+  if(DTB === '{}'){
+    let obj = {
+      [collectionName]: [item]
+    }
+    window.localStorage.setItem(dataBaseName, JSON.stringify(obj))
+    return obj
+  }
+
+  let parsedDTB = JSON.parse(DTB)
+  //console.log(parsedDTB[collectionName]);
+  
+  //If Collection doesn't exist
+  if(parsedDTB[collectionName] === undefined){
+    console.log(`No collection named: ${collectionName} found, creating a new collection...`)
+    parsedDTB[collectionName] = [item]
+    //console.log(parsedDTB);
+    window.localStorage.setItem(dataBaseName, JSON.stringify(parsedDTB))
+    return parsedDTB
+  }
+  //Database and collection exist , adding the item
+  parsedDTB[collectionName].push(item)
+  console.log(parsedDTB);
+  window.localStorage.setItem(dataBaseName, JSON.stringify(parsedDTB))
+  return item
+  
+}
+
+
+//Post multiple item
+function postManyItems(dataBaseName, collectionName, items){
+  if(items.length &lt; 2) return console.error('!ERROR! postItems() : items is not an array')
+  items.forEach(item => {
+    postItem(dataBaseName, collectionName, item)
+  })
+  return items
+}
+
+
+///////////////////////////////////////////////////////
+// UPDATE "ROUTES"
+///////////////////////////////////////////////////////
+
+//Update a dtb
+
+//Update a collection
+
+//Update an item
+
+///////////////////////////////////////////////////////
+// DELETE "ROUTES"
+///////////////////////////////////////////////////////
+
+//Delete a dtb
+
+//Delete a collection
+
+//Delete an item
+
+//Delet multiple items</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getAllDTB">getAllDTB</a></li><li><a href="global.html#getCollection">getCollection</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#initDTB">initDTB</a></li><li><a href="global.html#postItem">postItem</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Feb 11 2020 16:21:48 GMT+0100 (GMT+01:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
