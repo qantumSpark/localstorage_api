@@ -23,5 +23,6 @@
   "homepage": "https://github.com/qantumSpark/localstorage_api#readme",
   "devDependencies": {
     "jsdoc": "^3.6.3"
-  }
+  },
+  "dependencies": {}
 }
